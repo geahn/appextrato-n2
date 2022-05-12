@@ -9,7 +9,7 @@ class Auth extends React.Component {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                console.log(data[data][0]);
             })
             .catch(error => {
                 console.log('ERROR: ' + error.message);
