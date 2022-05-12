@@ -4,13 +4,12 @@ class Auth extends React.Component {
     constructor() {
         super();
 
-        var url = 'https://danielextrato.herokuapp.com/public_html/api/user/daniel';
+        var url = 'https://danielapi.herokuapp.com/public_html/api/user/daniel';
 
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                alert(data)
             })
             .catch(error => {
                 console.log('ERROR: ' + error.message);
