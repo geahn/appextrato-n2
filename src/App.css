@@ -1,0 +1,498 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* CSS do App */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap");
+
+:root {
+  --main: #009b5f;
+  --sec: #ff8800;
+  --maintxt: #fff;
+  --sectxt: #000;
+  --color: #414141;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--color);
+  background-color: #ececec;
+  font-family: "Montserrat", sans-serif;
+}
+
+hr {
+  border: 1px solid #ececec;
+  margin: 6px;
+}
+
+.boxed {
+  width: calc(100% - 60px);
+  margin: 15px;
+  padding: 15px;
+}
+
+.auth-tela {
+  margin: 0;
+  width: calc(100% - 30px);
+  height: 100vh;
+  background: #0c4a97;
+  background: linear-gradient(
+    40deg,
+    rgba(12, 74, 151, 1) 0%,
+    rgba(0, 135, 111, 1) 50%,
+    rgba(79, 181, 72, 1) 100%
+  );
+}
+
+lottie-player {
+  background: #0c4a97;
+  background: linear-gradient(
+    40deg,
+    rgba(12, 74, 151, 1) 0%,
+    rgba(0, 135, 111, 1) 50%,
+    rgba(79, 181, 72, 1) 100%
+  );
+  display: block;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  text-align: center;
+  opacity: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  animation-name: lottieplayer;
+  animation-duration: 5.5s;
+}
+
+@keyframes lottieplayer {
+  0% {
+    opacity: 1;
+    z-index: 99;
+  }
+  85% {
+    opacity: 1;
+    z-index: 99;
+  }
+  99% {
+    opacity: 0;
+    z-index: 99;
+  }
+  100% {
+    display: none;
+    z-index: -1;
+  }
+}
+
+.card {
+  max-width: 1050px;
+  width: calc(100% - 30px);
+  padding: 15px;
+  margin: 0 auto;
+  background: #fff;
+  display: block;
+  border-radius: 5px;
+  border-bottom: 4px solid var(--main);
+  margin: 0 20px;
+  display: inline-table;
+}
+
+.card-mini {
+  max-width: 350px;
+}
+
+.m1 {
+  margin: 5px auto !important;
+}
+
+.m2 {
+  margin: 10px auto !important;
+}
+
+.m3 {
+  margin: 20px auto !important;
+}
+
+.m4 {
+  margin: 50px auto !important;
+}
+
+.m5 {
+  margin: 100px auto 10px !important;
+}
+
+h1 {
+text-transform: uppercase;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.logoapp {
+  background-image: url("logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  max-width: 300px;
+  max-height: 88px;
+  width: 100%;
+  height: 88px;
+  display: block;
+  margin: 0 auto;
+}
+
+.logomini {
+  width: 150px;
+  height: 40px;
+  margin-left: 10px;
+  display: inline-block;
+  position: absolute;
+  top: 7px;
+  left: 35px;
+}
+
+/* .linksauth a {
+  color: #000;
+  margin: 0 15px;
+  padding: 5px 0;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 600;
+} */
+
+.linksauth {  
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: -7px;
+}
+
+.linksauth span {
+  width:100%;
+  color: #000;
+  margin: 0 15px;
+  padding: 5px 0;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor:pointer;
+}
+
+.selectauth {
+  border-bottom: 4px solid var(--sec);
+}
+
+.loginavatar {
+  display: block;
+  padding: 25px 0 0px;
+  font-size: 90px;
+  color: var(--color);
+}
+
+input {
+  padding: 10px;
+  margin: 5px 0;
+  width: calc(100% - 30px);
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
+.inputicon input {
+  padding-left: 30px;
+  width: calc(100% - 60px);
+}
+
+button[type="Submit"] {
+  color: var(--maintxt);
+  background: var(--main);
+  border: 0;
+  border-radius: 5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 15px;
+  margin: 5px 0;
+  width: auto;
+  filter:brightness(100%) contrast(100%);
+  transition: filter .2s;
+  cursor:pointer;
+}
+
+button[type="Submit"] ion-icon {
+  font-size: 20px;
+  position: relative;
+  top: 5px;
+  margin-top: -6px;
+}
+
+button[type="Submit"]:hover {
+  filter:brightness(115%) contrast(115%);
+}
+
+.cancelar {
+  background:var(--sec) !important;
+  margin: 0 10px !important;
+}
+
+.inputicon {
+  position: relative;
+}
+
+.inputicon ion-icon {
+  font-size: 20px;
+  position: absolute;
+  top: 13px;
+  left: 15px;
+}
+
+.msgerro {
+  color: white;
+  background: #dd4955;
+  padding: 10px 5px;
+  border-radius: 5px;
+  margin: 4px;
+}
+
+.msgsucesso {
+  color: white;
+  background: #24ac5d;
+  padding: 10px 5px;
+  border-radius: 5px;
+  margin: 4px;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  text-align: left;
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 20px;
+  background: #0c4a97;
+  background: linear-gradient( 40deg, rgba(12, 74, 151, 1) 0%, rgba(0, 135, 111, 1) 50%, rgba(79, 181, 72, 1) 100% );
+}
+
+table {
+  border-collapse: collapse;
+  width: calc(100% - 20px);
+  max-width: 1080px;
+  margin: 70px auto 10px;
+}
+
+thead tr {
+  background-color: #f5f5f5;
+}
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+tr:nth-child(even){background-color: #f5f5f5;}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+}
+
+.valortotal {
+  position:absolute;
+  right:10px;
+  top:8px;
+  background:white;
+  color:var(--main);
+  font-size:14px;
+  padding:10px 15px;
+  border-radius:30px;
+  display: inline-block;
+}
+
+.valorpositivo {
+  color:#24ac5d;
+}
+
+.valornegativo {
+  color:#dd4955;
+}
+
+#meumenu {
+  position: fixed;
+  top: 0;
+  left: -350px;
+  width: 320px;
+  height: 100vh;
+  background: #0c4a97;
+  background: linear-gradient(
+    40deg,
+    rgba(12, 74, 151, 1) 0%,
+    rgba(0, 135, 111, 1) 50%,
+    rgba(79, 181, 72, 1) 100%
+  );
+  box-shadow: 5px 0 20px rgb(0 0 0 / 20%);
+  transition: left .7s;
+  z-index: 99;
+}
+
+#menuhamb {
+  color:white;
+  cursor:pointer;
+}
+
+#xfechar {
+  color: white;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  cursor:pointer;
+  transition: left .7s;
+}
+
+.menusaldo {
+  color:white;
+  padding:15px 20px;
+  width:calc(100% - 40px);
+  border:3px solid white;
+  border-radius:50px;
+  text-align: center;
+  font-size:11px;
+  margin:30px auto 15px;
+  display:block;
+}
+
+.menusaldo b{
+  font-size:18px;
+}
+
+.btmenu {
+  display:flex;
+}
+
+.btmenu button ion-icon {
+  display: block;
+  margin: 0 auto;
+  font-size: 45px;
+  margin-bottom: 10px;
+  color: #0c4c96;
+}
+
+.btmenu button {
+  border-radius: 10px;
+  border: 0;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  background: white;
+  margin: 5px;
+  padding: 10px;
+  border:4px solid transparent;
+  cursor:pointer;
+}
+
+.btmenu button:hover {
+  border:4px solid #0c4c96;
+}
+
+.sair {
+  color: black;
+  background: white;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin: 5px;
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  border:4px solid transparent;
+}
+
+.sair ion-icon {
+  color:#0c4c96;
+  position: relative;
+  top:2px;
+}
+
+.sair:hover {
+  border:4px solid #0c4c96;
+}
+
+.aviso_uso {
+  position:relative;
+  color: white;
+  background: #0c4a97;
+  background: linear-gradient( 40deg, rgba(12, 74, 151, 1) 0%, rgba(0, 135, 111, 1) 50%, rgba(79, 181, 72, 1) 100% );
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  display: inline-block;
+  z-index: -1;
+}
+
+.aviso_uso:before{
+  position: absolute;
+  content: " ";
+  width: 15px;
+  height: 15px;
+  background: #0a558f;
+  top: -4px;
+  left: 13px;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.rodape {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  padding: 10px 0;
+  text-align: center;
+  background: #fff;
+}
