@@ -104,7 +104,6 @@ class Auth extends React.Component {
             .then(res => {
                 console.log(res);
                 console.log(res.data);
-                alert('ok')
               })
             //   .then(function (response) {
             //     console.log(response);
@@ -201,7 +200,7 @@ class Auth extends React.Component {
                     <hr />
 
                     <div id="formlogin" className="">
-                        <p>Boas-vindas, faça seu login!</p>
+                        <p>Boas-vindas, faça seu logine!</p>
 
                         <div className="msgsucesso hide" id="msgsucesso">
                             Usuário cadastrado com sucesso!
