@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 
 class Auth extends React.Component {
     constructor() {
@@ -74,24 +75,31 @@ class Auth extends React.Component {
 
         if (this.state.usuario_cadastro !== "" && this.state.senha_cadastro !== "") {
 
-            var url = 'https://danielapi.herokuapp.com/public_html/api/user';
+            // var url = 'https://danielapi.herokuapp.com/public_html/api/user';
 
-            const params = {
-                username: this.state.usuario_cadastro,
-                password: this.state.senha_cadastro
-            };
+            // const params = {
+            //     username: this.state.usuario_cadastro,
+            //     password: this.state.senha_cadastro
+            // };
 
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(params)
-            };
+            // const options = {
+            //     method: 'POST',
+            //     body: JSON.stringify(params)
+            // };
             
-            fetch(url, options)
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => {
-                    console.error('ERROR: ' + error.message);
-                })
+            // fetch(url, options)
+            //     .then(response => response.json())
+            //     .then(data => console.log(data))
+            //     .catch(error => {
+            //         console.error('ERROR: ' + error.message);
+            //     })
+
+            axios.get('https://danielapi.herokuapp.com/public_html/api/user')
+            .then(res => {
+                const user = res.data
+                this.setState({ user })
+                console.log(user)
+            })
 
             let elemento = document.getElementById("msgsucesso");
             elemento.className = "msgsucesso";
@@ -113,26 +121,6 @@ class Auth extends React.Component {
 
                 e.preventDefault();
             }
-
-        // if (this.state.usuario_cadastro !== "" && this.state.senha_cadastro !== "") {
-        //     let elemento = document.getElementById("msgsucesso");
-        //     elemento.className = "msgsucesso";
-      
-        //     let removerClasse1 = document.getElementById("msgerro");
-        //     removerClasse1.className = "msgerro hide";
-
-        //     let removerClasse2 = document.getElementById("msgerrologin");
-        //     removerClasse2.className = "msgerrologin hide";
-
-        //     this.mostraLogin();
-            
-        //     e.preventDefault();
-        //     } else {
-        //         let elemento = document.getElementById("msgerro");
-        //         elemento.className = "msgerro";
-
-        //         e.preventDefault();
-        //     }
     };
 
     aoMudarUsuarioLogin = (e) => {
@@ -193,7 +181,7 @@ class Auth extends React.Component {
                     <div className="linksauth">
                         <span id="linklogin" className="selectauth"
                         onClick={this.mostraLogin}>
-                            Logineee</span>
+                            Login</span>
                         <span id="linkcadastro" className=""
                         onClick={this.mostraCadastro}>
                             Cadastro</span>
