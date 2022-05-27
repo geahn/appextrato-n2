@@ -106,8 +106,6 @@ class Auth extends React.Component {
                 console.error(error);
               });
 
-              alert("vai" + this.state.usuario_cadastro + this.state.senha_cadastro)
-
             let elemento = document.getElementById("msgsucesso");
             elemento.className = "msgsucesso";
       
