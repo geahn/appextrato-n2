@@ -93,8 +93,6 @@ class Auth extends React.Component {
                     console.error('ERROR: ' + error.message);
                 })
 
-            console.log(params)
-
             let elemento = document.getElementById("msgsucesso");
             elemento.className = "msgsucesso";
       
