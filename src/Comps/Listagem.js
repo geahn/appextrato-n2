@@ -68,6 +68,11 @@ class Listagem extends React.Component{
         document.getElementById('meumenu').style.left = '-350px'
     }
 
+    logoff() {
+        localStorage.clear();
+        window.location = "/";
+    }
+
     setContas(contaValor, contaDesc) {
         contaValor = contaValor.replace(",", ".")
         contaValor = contaValor.replace("R$", "")
@@ -98,8 +103,11 @@ class Listagem extends React.Component{
     }
 
     render(){
-        const valorTotal=(this.state.entradas.reduce((extrato,currentItem) =>  extrato = extrato + currentItem.valor , 0 ));
+        if(!localStorage.getItem('username')) {
+            window.location = "/";
+        }
 
+        const valorTotal=(this.state.entradas.reduce((extrato,currentItem) =>  extrato = extrato + currentItem.valor , 0 ));
         const mapaExtrato = this.state.entradas.map((mapa, index) =>
             <tr key={index}>
                 <td>{mapa.horario}</td>
@@ -137,7 +145,7 @@ class Listagem extends React.Component{
                                     Contas a receber
                                 </button>
                             </div>
-                            <a href="/" className="sair">
+                            <a className="sair" onClick={this.logoff}>
                                 Sair <ion-icon name="power"></ion-icon>
                             </a>
                         </div>

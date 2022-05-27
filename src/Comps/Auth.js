@@ -4,17 +4,16 @@ class Auth extends React.Component {
     constructor() {
         super();
 
-        var url = 'https://danielapi.herokuapp.com/public_html/api/user/';
+        // var url = 'https://danielapi.herokuapp.com/public_html/api';
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data['data'][0]['username']);
-                console.log(data);
-            })
-            .catch(error => {
-                console.log('ERROR: ' + error.message);
-            })
+        // fetch(url+'/user/daniel')
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log(data['data']['username']);
+        //     })
+        //     .catch(error => {
+        //         console.log('ERROR: ' + error.message);
+        //     })
 
         this.state = {
           usuario_cadastro: "",
@@ -74,14 +73,36 @@ class Auth extends React.Component {
     aoEnviarCadastro = (e) => {
 
         if (this.state.usuario_cadastro !== "" && this.state.senha_cadastro !== "") {
+
+            var url = 'https://danielapi.herokuapp.com/public_html/api/user';
+
+            const params = {
+                username: this.state.usuario_cadastro,
+                password: this.state.senha_cadastro
+            };
+
+            const options = {
+                method: 'POST',
+                body: JSON.stringify(params)
+            };
+            
+            fetch(url, options)
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => {
+                    console.error('ERROR: ' + error.message);
+                })
+
+            console.log(params)
+
             let elemento = document.getElementById("msgsucesso");
             elemento.className = "msgsucesso";
       
             let removerClasse1 = document.getElementById("msgerro");
             removerClasse1.className = "msgerro hide";
 
-            let removerClasse2 = document.getElementById("msgerroLogin");
-            removerClasse2.className = "msgerroLogin hide";
+            let removerClasse2 = document.getElementById("msgerrologin");
+            removerClasse2.className = "msgerrologin hide";
 
             this.mostraLogin();
             
@@ -89,9 +110,31 @@ class Auth extends React.Component {
             } else {
                 let elemento = document.getElementById("msgerro");
                 elemento.className = "msgerro";
+                
+                console.log("Usuário não foi cadastrado!")
 
                 e.preventDefault();
             }
+
+        // if (this.state.usuario_cadastro !== "" && this.state.senha_cadastro !== "") {
+        //     let elemento = document.getElementById("msgsucesso");
+        //     elemento.className = "msgsucesso";
+      
+        //     let removerClasse1 = document.getElementById("msgerro");
+        //     removerClasse1.className = "msgerro hide";
+
+        //     let removerClasse2 = document.getElementById("msgerrologin");
+        //     removerClasse2.className = "msgerrologin hide";
+
+        //     this.mostraLogin();
+            
+        //     e.preventDefault();
+        //     } else {
+        //         let elemento = document.getElementById("msgerro");
+        //         elemento.className = "msgerro";
+
+        //         e.preventDefault();
+        //     }
     };
 
     aoMudarUsuarioLogin = (e) => {
@@ -103,26 +146,48 @@ class Auth extends React.Component {
     };
 
     aoEnviarLogin = (e) => {
-        if (this.state.usuario_cadastro === this.state.usuario_login &&
-            this.state.senha_cadastro === this.state.senha_login) {
+        if (this.state.usuario_login && this.state.senha_login) {   
+            var url = 'https://danielapi.herokuapp.com/public_html/api';
 
-                if (this.state.usuario_login !== "" && this.state.senha_login  !== "" ) {
-                    window.location = "/listagem";
-                } else {
-                    e.preventDefault();
-                }
-            } else {
-                let elemento1 = document.getElementById("msgerroLogin");
-                elemento1.className = "msgerro";
-                
-                let elemento2 = document.getElementById("msgsucesso");
-                elemento2.className = "msgsucesso hide";
-                
-                e.preventDefault();
-            }
+            fetch(url+'/user/'+this.state.usuario_login)
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data['data']['username'] === this.state.usuario_login &&
+                        data['data']['password'] === this.state.senha_login &&
+                        data['data']['status'] === "1" ) {
+
+                            localStorage.setItem('username', data['data']['username']);
+                            window.location = "/listagem";
+
+                    } else {
+                        let addClasse = document.getElementById("msgerrologin");
+                        addClasse.className = "msgerro";
+                        
+                        let removeClass = document.getElementById("msgsucesso");
+                        removeClass.className = "msgsucesso hide";
+
+                        let removeClass2 = document.getElementById("msgerro");
+                        removeClass2.className = "msgerro hide";
+
+                        console.log('Usuário não encontrado');
+                    }
+                })
+
+            e.preventDefault();
+        } else {
+            let addClasse = document.getElementById("msgerro");
+            addClasse.className = "msgerro";
+
+            let removeClasse = document.getElementById("msgerrologin");
+            removeClasse.className = "msgerro hide";
+        }
     };
 
     render(){
+        if(localStorage.getItem('username')) {
+            window.location = "/listagem";
+        }
         return(
             <div className="boxed auth-tela">
                 <div className="logoapp m4"></div>
@@ -144,7 +209,7 @@ class Auth extends React.Component {
                             Usuário cadastrado com sucesso!
                         </div>
 
-                        <div className="msgsucesso hide" id="msgerroLogin">
+                        <div className="msgerro hide" id="msgerrologin">
                             Usuário ou senha não encontrados!
                         </div>
 
@@ -170,6 +235,10 @@ class Auth extends React.Component {
                             value={this.state.senha_login}
                             onChange={this.aoMudarSenhaLogin}
                         ></input>
+                        </div>
+
+                        <div className="msgerro hide" id="msgerro">
+                            Preencha todos os campos.
                         </div>
 
                         <button type="submit" onClick={this.aoEnviarLogin}>
