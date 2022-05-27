@@ -200,7 +200,7 @@ class Auth extends React.Component {
                     <hr />
 
                     <div id="formlogin" className="">
-                        <p>Boas-vindas, faça seu logine!</p>
+                        <p>Boas-vindas, faça seu login!</p>
 
                         <div className="msgsucesso hide" id="msgsucesso">
                             Usuário cadastrado com sucesso!
