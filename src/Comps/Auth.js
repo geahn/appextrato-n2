@@ -102,7 +102,7 @@ class Auth extends React.Component {
                 console.log(response);
               })
               .catch(function (error) {
-                console.error('ERROR: ' + error.message);
+                console.error(error);
               });
 
             let elemento = document.getElementById("msgsucesso");
