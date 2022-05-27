@@ -94,17 +94,16 @@ class Auth extends React.Component {
             //         console.error('ERROR: ' + error.message);
             //     })
 
-            const user = {
+            axios.post('https://danielapi.herokuapp.com/public_html/api/user', {
                 username: this.state.usuario_cadastro,
                 password: this.state.senha_cadastro
-            }
-
-            axios.post('https://danielapi.herokuapp.com/public_html/api/user', { user })
-            .then(res => {
-                const user = res.data
-                this.setState({ user })
-                console.log(user)
-            })
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.error('ERROR: ' + error.message);
+              });
 
             let elemento = document.getElementById("msgsucesso");
             elemento.className = "msgsucesso";
