@@ -193,7 +193,7 @@ class Auth extends React.Component {
                     <div className="linksauth">
                         <span id="linklogin" className="selectauth"
                         onClick={this.mostraLogin}>
-                            Login</span>
+                            Logineee</span>
                         <span id="linkcadastro" className=""
                         onClick={this.mostraCadastro}>
                             Cadastro</span>
