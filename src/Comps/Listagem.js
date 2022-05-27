@@ -1,7 +1,7 @@
 import React from "react";
 import Contas from "./Contas";
 
-class Listagem extends React.Component{
+class Listagem extends React.Component {
     constructor() {
         super();
         this.state = { 
