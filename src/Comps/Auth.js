@@ -123,6 +123,7 @@ class Auth extends React.Component {
         if (this.state.usuario_login && this.state.senha_login) {
             const username = this.state.usuario_login
             const password = this.state.senha_login
+            
             var url = 'https://danielapi.herokuapp.com/public_html/api';
             
             axios.get(url+'/user/'+this.state.usuario_login)
