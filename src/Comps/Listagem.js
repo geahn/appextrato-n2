@@ -1,5 +1,6 @@
 import React from "react";
 import Contas from "./Contas";
+import axios from 'axios';
 
 class Listagem extends React.Component {
     constructor() {
@@ -83,9 +84,6 @@ class Listagem extends React.Component {
             contaValor = Math.abs(contaValor)
         }
 
-        // console.log("Valor a " + this.state.situacao + ": " + contaValor)
-        // console.log("Descrição: " + contaDesc)
-
         this.setState(prevState => ({
             entradas: [...prevState.entradas, { 
                 valor: contaValor,
@@ -93,16 +91,17 @@ class Listagem extends React.Component {
                 horario: this.definirDataHora()
              }]
           }))
-        
-        // this.setState({
-        //     desc: contaDesc,
-        //     horario: this.definirDataHora(),
-        //     valor: contaValor
-        // }
-
     }
 
     mostraMapaExtrato() {
+
+        var url = 'https://danielapi.herokuapp.com/public_html/api';
+        axios.get(url+'/transaction/'+localStorage.getItem('id'))
+        .then(function (res) {
+            alert("Descrição: "+res.data['data']['description']+". Valor: "+res.data['data']['value'])
+        }
+        )
+
         const mapaExtrato = this.state.entradas.map((mapa, index) =>
             <tr key={index}>
                 <td>{mapa.horario}</td>
