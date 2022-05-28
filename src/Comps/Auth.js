@@ -132,6 +132,7 @@ class Auth extends React.Component {
                         res.data['data']['password'] === password &&
                         res.data['data']['status'] === "1" ) {
 
+                            localStorage.setItem('id', res.data['data']['id']);
                             localStorage.setItem('username', res.data['data']['username']);
                             window.location = "/listagem";
 
