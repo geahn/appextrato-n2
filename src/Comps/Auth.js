@@ -94,7 +94,7 @@ class Auth extends React.Component {
             //         console.error('ERROR: ' + error.message);
             //     })
 
-            axios.post('https://danielapi.herokuapp.com/public_html/api/user',
+            axios.post('http://localhost/react/public_html/api/user',
              { 
                 username: this.state.usuario_cadastro,
                 password: this.state.senha_cadastro
