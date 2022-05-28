@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import cors from 'cors';
 
 class Auth extends React.Component {
     constructor() {
@@ -94,23 +95,17 @@ class Auth extends React.Component {
             //         console.error('ERROR: ' + error.message);
             //     })
 
-            const user = {
+            axios.post('https://danielapi.herokuapp.com/public_html/api/user',
+             { 
                 username: this.state.usuario_cadastro,
                 password: this.state.senha_cadastro
-            }
-            alert('ok')
-
-            axios.post('https://danielapi.herokuapp.com/public_html/api/user', user)
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
               })
-            //   .then(function (response) {
-            //     console.log(response);
-            //   })
-            //   .catch(function (error) {
-            //     console.error(error);
-            //   });
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.error(error);
+              });
 
             let elemento = document.getElementById("msgsucesso");
             elemento.className = "msgsucesso";
