@@ -99,7 +99,7 @@ class Auth extends React.Component {
                 password: this.state.senha_cadastro
             }
 
-            axios.post('https://danielapi.herokuapp.com/public_html/api/user', {user})
+            axios.post('https://danielapi.herokuapp.com/public_html/api/user', user)
             .then(res => {
                 console.log(res);
                 console.log(res.data);
