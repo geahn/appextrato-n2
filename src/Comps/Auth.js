@@ -73,28 +73,11 @@ class Auth extends React.Component {
 
     aoEnviarCadastro = (e) => {
 
-        if (this.state.usuario_cadastro !== "" && this.state.senha_cadastro !== "") {
+        if (this.state.usuario_cadastro && this.state.senha_cadastro) {
 
-            // var url = 'https://danielapi.herokuapp.com/public_html/api/user';
-
-            // const params = {
-            //     username: this.state.usuario_cadastro,
-            //     password: this.state.senha_cadastro
-            // };
-
-            // const options = {
-            //     method: 'POST',
-            //     body: JSON.stringify(params)
-            // };
+            var url = 'https://danielapi.herokuapp.com/public_html/api';
             
-            // fetch(url, options)
-            //     .then(response => response.json())
-            //     .then(data => console.log(data))
-            //     .catch(error => {
-            //         console.error('ERROR: ' + error.message);
-            //     })
-
-            axios.post('http://localhost/react/public_html/api/user',
+            axios.post(url+'/user',
              { 
                 username: this.state.usuario_cadastro,
                 password: this.state.senha_cadastro
@@ -137,18 +120,19 @@ class Auth extends React.Component {
     };
 
     aoEnviarLogin = (e) => {
-        if (this.state.usuario_login && this.state.senha_login) {   
+        if (this.state.usuario_login && this.state.senha_login) {
+            const username = this.state.usuario_login
+            const password = this.state.senha_login
             var url = 'https://danielapi.herokuapp.com/public_html/api';
+            
+            axios.get(url+'/user/'+this.state.usuario_login)
+            .then(function (res) {
 
-            fetch(url+'/user/'+this.state.usuario_login)
-                .then(response => response.json())
-                .then(data => {
+                    if (res.data['data']['username'] === username &&
+                        res.data['data']['password'] === password &&
+                        res.data['data']['status'] === "1" ) {
 
-                    if (data['data']['username'] === this.state.usuario_login &&
-                        data['data']['password'] === this.state.senha_login &&
-                        data['data']['status'] === "1" ) {
-
-                            localStorage.setItem('username', data['data']['username']);
+                            localStorage.setItem('username', res.data['data']['username']);
                             window.location = "/listagem";
 
                     } else {
