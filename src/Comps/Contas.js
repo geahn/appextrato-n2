@@ -43,8 +43,8 @@ addConta = (e) => {
         tipo = "R"
     }
     
-    //var url = 'https://danielapi.herokuapp.com/public_html/api';
-    var url = 'http://localhost/react/public_html/api';
+    var url = 'https://danielapi.herokuapp.com/public_html/api';
+    //var url = 'http://localhost/react/public_html/api';
     axios.post(url+'/transaction',
              { 
                 user_id: localStorage.getItem('id'),
