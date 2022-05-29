@@ -21,8 +21,20 @@ class Listagem extends React.Component {
         .then((res) => {
 
             for (let i=0; i < (res.data['data']).length; i++) {
+
+                const desc = res.data['data'][i]['created_at'];
+                let valor = parseInt(res.data['data'][i]['value']);
+                const data = res.data['data'][i]['updated_at'];
+                const tipo = res.data['data'][i]['type'];
+
+                if (tipo === "P") {
+                    valor = -Math.abs(valor)
+                } else {
+                    valor = Math.abs(valor)
+                }
+
                 this.setState({ entradas: [...this.state.entradas,
-                    {valor: parseInt(res.data['data'][i]['value']), desc: res.data['data'][i]['description'], horario: res.data['data'][i]['created_at'] }
+                    {valor: valor, desc: desc, horario: data }
                 ]})
             }
         })
