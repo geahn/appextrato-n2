@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 
 class Contas extends React.Component{
     constructor(props) {
@@ -33,8 +34,31 @@ aoMudarDesc = (e) => {
 addConta = (e) => {
 
     this.validaDados(this.state.valor, this.state.desc)
-
     this.props.metodo(this.state.valor, this.state.desc)
+
+    let tipo = ""
+    if (this.props.situacao === "pagar") {
+        tipo = "P"
+    } else {
+        tipo = "R"
+    }
+    
+    //var url = 'https://danielapi.herokuapp.com/public_html/api';
+    var url = 'http://localhost/react/public_html/api';
+    axios.post(url+'/transaction',
+             { 
+                user_id: localStorage.getItem('id'),
+                type: tipo,
+                description: this.state.desc,
+                value: this.state.valor
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.error(error);
+              });
+
     this.limparInput()
     this.exibirExtrato()
 }

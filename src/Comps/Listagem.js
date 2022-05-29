@@ -22,7 +22,7 @@ class Listagem extends React.Component {
 
             for (let i=0; i < (res.data['data']).length; i++) {
 
-                const desc = res.data['data'][i]['created_at'];
+                const desc = res.data['data'][i]['description'];
                 let valor = parseInt(res.data['data'][i]['value']);
                 const data = res.data['data'][i]['updated_at'];
                 const tipo = res.data['data'][i]['type'];
@@ -49,15 +49,7 @@ class Listagem extends React.Component {
     }
 
     definirDataHora(){
-        const getData = new Date();
-        const dia = getData.getDate();
-        const mes = getData.getMonth() + 1;
-        const ano = getData.getFullYear();
-        const data = this.addZero(dia) + "/" + this.addZero(mes) + "/" + ano;
-        
-        const hora = new Date().toLocaleTimeString();
-
-        return data + " " + hora;
+        return Date.now();
     }
 
     converterMoeda = (e) => {
