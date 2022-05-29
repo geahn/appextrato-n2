@@ -1,23 +1,33 @@
 import React from "react";
 import Contas from "./Contas";
 import axios from 'axios';
+import moment from 'moment';
 
 class Listagem extends React.Component {
     constructor() {
         super();
         this.state = { 
             situacao: "", //contas a pagar ou a receber
-            entradas: [
-                //{  valor: 1000, desc: "Capital de Giro", horario: this.definirDataHora()  }
-            ]
+            entradas: []
         }
         
         this.contasPagar = this.contasPagar.bind(this);
         this.contasReceber = this.contasReceber.bind(this);
         this.setContas = this.setContas.bind(this);
-    }
 
-    // const [extrato, setExtrato] = useState({});
+
+        var url = 'https://danielapi.herokuapp.com/public_html/api';
+        axios.get(url+'/transaction/'+localStorage.getItem('id'))
+        .then((res) => {
+
+            for (let i=0; i < (res.data['data']).length; i++) {
+                this.setState({ entradas: [...this.state.entradas,
+                    {valor: parseInt(res.data['data'][i]['value']), desc: res.data['data'][i]['description'], horario: res.data['data'][i]['created_at'] }
+                ]})
+            }
+        })
+
+    }
 
     addZero(numero){
         if (numero <= 9) 
@@ -91,43 +101,7 @@ class Listagem extends React.Component {
                 horario: this.definirDataHora()
              }]
           }))
-    }
 
-    mostraMapaExtrato() {
-
-        var url = 'https://danielapi.herokuapp.com/public_html/api';
-        axios.get(url+'/transaction/'+localStorage.getItem('id'))
-        .then(function (res) {
-            alert("Descrição: "+res.data['data']['description']+". Valor: "+res.data['data']['value'])
-        }
-        )
-
-        const mapaExtrato = this.state.entradas.map((mapa, index) =>
-            <tr key={index}>
-                <td>{mapa.horario}</td>
-                <td>{mapa.desc}</td>
-                <td><b className={this.estiloPosNeg(mapa.valor)}> {this.converterMoeda(mapa.valor)}</b></td>
-            </tr>)
-            if (this.state.entradas.length > 0) {
-                return( 
-                    <div id="tabela">
-                    <table border="0">
-                      <thead>
-                        <tr>
-                            <td><b>Horário</b></td>
-                            <td><b>Descrição</b></td>
-                            <td><b>Valor</b></td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {mapaExtrato}
-                      </tbody> 
-                    </table>
-                    </div>
-                    )
-            } else {
-                return <div className="aviso_uso">Adicione uma conta a pagar ou a receber.</div>
-            }
     }
 
     render(){
@@ -136,6 +110,13 @@ class Listagem extends React.Component {
         }
 
         const valorTotal=(this.state.entradas.reduce((extrato,currentItem) =>  extrato = extrato + currentItem.valor , 0 ));
+
+        const mapaExtrato = this.state.entradas.map((mapa, index) =>
+            <tr key={index}>
+                <td>{moment(newFunction(mapa)).format("DD/MM/YYYY hh:mm:ss")}</td>
+                <td>{mapa.desc}</td>
+                <td><b className={this.estiloPosNeg(mapa.valor)}> {this.converterMoeda(mapa.valor)}</b></td>
+            </tr>)
 
         return(
             <div>
@@ -184,12 +165,30 @@ class Listagem extends React.Component {
                     </div>
                 </nav>
 
-                {this.mostraMapaExtrato()}   
+                <div id="tabela">
+                    <table border="0">
+                      <thead>
+                        <tr>
+                            <td><b>Horário</b></td>
+                            <td><b>Descrição</b></td>
+                            <td><b>Valor</b></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {mapaExtrato}
+                      </tbody> 
+                    </table>
+                </div>
+                {/* <div className="aviso_uso" id="aviso_uso">Adicione uma conta a pagar ou a receber.</div> */}
 
                 <Contas situacao={this.state.situacao} metodo={this.setContas} />
 
             </div>
         )
+
+        function newFunction(mapa) {
+            return mapa.horario;
+        }
     }
 }
 
