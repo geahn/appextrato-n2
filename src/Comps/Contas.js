@@ -42,6 +42,9 @@ addConta = (e) => {
     } else {
         tipo = "R"
     }
+
+    let valor = this.state.valor.replace(",", ".")
+    console.log(valor)
     
     var url = 'https://danielapi.herokuapp.com/public_html/api';
     //var url = 'http://localhost/react/public_html/api';
@@ -50,7 +53,7 @@ addConta = (e) => {
                 user_id: localStorage.getItem('id'),
                 type: tipo,
                 description: this.state.desc,
-                value: this.state.valor
+                value: valor
               })
               .then(function (response) {
                 console.log(response);

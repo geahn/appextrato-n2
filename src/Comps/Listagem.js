@@ -2,6 +2,7 @@ import React from "react";
 import Contas from "./Contas";
 import axios from 'axios';
 import moment from 'moment';
+import numeral from 'numeral';
 
 class Listagem extends React.Component {
     constructor() {
@@ -23,7 +24,7 @@ class Listagem extends React.Component {
             for (let i=0; i < (res.data['data']).length; i++) {
 
                 const desc = res.data['data'][i]['description'];
-                let valor = parseInt(res.data['data'][i]['value']);
+                let valor = res.data['data'][i]['value'];
                 const data = res.data['data'][i]['updated_at'];
                 const tipo = res.data['data'][i]['type'];
 
@@ -53,7 +54,8 @@ class Listagem extends React.Component {
     }
 
     converterMoeda = (e) => {
-        return e.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+        //return e.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+        return numeral(e).format('$ 00.00');
     }
 
     estiloPosNeg = (e) => {
@@ -115,11 +117,11 @@ class Listagem extends React.Component {
 
         const valorTotal=(this.state.entradas.reduce((extrato,currentItem) =>  extrato = extrato + currentItem.valor , 0 ));
 
-        const mapaExtrato = this.state.entradas.map((mapa, index) =>
+        const mapaExtrato = this.state.entradas.reverse().map((mapa, index) =>
             <tr key={index}>
                 <td>{moment(newFunction(mapa)).format("DD/MM/YYYY hh:mm:ss")}</td>
                 <td>{mapa.desc}</td>
-                <td><b className={this.estiloPosNeg(mapa.valor)}> {this.converterMoeda(mapa.valor)}</b></td>
+                <td><b className={this.estiloPosNeg(mapa.valor)}> R{this.converterMoeda(mapa.valor).replace("-", "").replace(".",",")}</b></td>
             </tr>)
 
         return(
@@ -142,7 +144,7 @@ class Listagem extends React.Component {
 
                             <span className="menusaldo">
                                 SALDO TOTAL<br />
-                                <b>{this.converterMoeda(valorTotal)}</b>
+                                <b>R{this.converterMoeda(valorTotal).replace("-", "").replace(".",",")}</b>
                             </span>
 
                             <div className="btmenu">
@@ -165,7 +167,7 @@ class Listagem extends React.Component {
 
                     <div className="valortotal">
                         <span>Saldo: </span>
-                        <b className={this.estiloPosNeg(valorTotal)}> {this.converterMoeda(valorTotal)}</b>
+                        <b className={this.estiloPosNeg(valorTotal)}> R{this.converterMoeda(valorTotal).replace("-", "").replace(".",",")}</b>
                     </div>
                 </nav>
 
