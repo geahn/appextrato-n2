@@ -42,7 +42,7 @@ class Listagem extends React.Component {
 
         axios.put(url+'/user', {
             user_id: localStorage.getItem('id'),
-            password: 'byby123'
+            password: 'eita'
           })
           .then(function (response) {
             console.log(response);
