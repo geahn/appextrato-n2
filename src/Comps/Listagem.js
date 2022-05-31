@@ -40,8 +40,19 @@ class Listagem extends React.Component {
             }
         })
 
-        axios.put(url+'/user', {
-            password: 'novasenha',
+        // axios.put(url+'/user', {
+        //     password: '123',
+        //     user_id: localStorage.getItem('id')
+        //   })
+        //   .then(function (response) {
+        //     console.log(response);
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   });
+
+        axios.put(url+'/Transiction', {
+            password: '123',
             user_id: localStorage.getItem('id')
           })
           .then(function (response) {
