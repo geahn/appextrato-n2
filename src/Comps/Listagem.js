@@ -45,10 +45,10 @@ class Listagem extends React.Component {
             password: '1234567'
           })
           .then(function (response) {
-            console.log("OK: "+response);
+            console.log(response);
           })
           .catch(function (error) {
-            console.log("ERRO: "+error);
+            console.log(error);
           });
 
     }
