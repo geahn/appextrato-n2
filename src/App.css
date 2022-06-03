@@ -510,3 +510,13 @@ th {
   text-align: center;
   background: #fff;
 }
+
+.edita {
+  color:#0a5590;
+}
+
+.naoedita {
+  color:#d9d9d9;
+  pointer-events: none;
+  cursor: default;
+}

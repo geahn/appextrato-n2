@@ -5,9 +5,11 @@ class Contas extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            valor: "",
-            desc: ""
-    }
+            valor: this.props.valor,
+            desc: this.props.desc,
+            situacao: this.props.situacao,
+            id_transacao: this.props.id_transacao
+        }
 }
 
 exibirExtrato = () => {
@@ -19,6 +21,9 @@ exibirExtrato = () => {
 
     let elemento3 = document.getElementById("msgerro");
     elemento3.className = "msgerro hide";
+
+    let elemento4 = document.getElementById("conta_desc");
+    elemento4.className = "";
 
     this.limparInput();
 }
@@ -33,9 +38,6 @@ aoMudarDesc = (e) => {
 
 addConta = (e) => {
 
-    this.validaDados(this.state.valor, this.state.desc)
-    this.props.metodo(this.state.valor, this.state.desc)
-
     let tipo = ""
     if (this.props.situacao === "pagar") {
         tipo = "P"
@@ -43,25 +45,52 @@ addConta = (e) => {
         tipo = "R"
     }
 
-    let valor = this.state.valor.replace(",", ".")
-    console.log(valor)
-    
-    var url = 'https://danielapi.herokuapp.com/public_html/api';
-    //var url = 'http://localhost/react/public_html/api';
-    axios.post(url+'/transaction',
-             { 
-                user_id: localStorage.getItem('id'),
-                type: tipo,
-                description: this.state.desc,
-                value: valor
-              })
-              .then(function (response) {
-                console.log(response);
-              })
-              .catch(function (error) {
-                console.error(error);
-              });
+    this.validaDados(this.state.valor, this.state.desc)
 
+    let valor = this.state.valor.replace(",", ".")
+
+    if (!this.props.id_transacao) {
+        
+        var url = 'https://danielapi.herokuapp.com/public_html/api';
+        //var url = 'http://localhost/react/public_html/api';
+        axios.post(url+'/transaction',
+                { 
+                    user_id: localStorage.getItem('id'),
+                    type: tipo,
+                    description: this.state.desc,
+                    value: valor
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+
+        
+    } else {
+
+        var url = 'https://danielapi.herokuapp.com/public_html/api';
+        axios.put(url+'/transaction', {
+            user_id: localStorage.getItem('id'),
+            value: this.state.valor,
+            transaction_id: this.props.id_transacao
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        
+        // const esconder = "id_"+this.props.id_transacao
+        // let elemento = document.getElementById(esconder);
+        // console.log((esconder))
+        // elemento.className = "hide";
+
+    }
+
+    this.props.metodo(this.state.valor, this.state.desc)
     this.limparInput()
     this.exibirExtrato()
 }
@@ -69,8 +98,10 @@ addConta = (e) => {
 limparInput() {
     this.setState({
         valor: "",
-        desc: ""
-    })
+        desc: "",
+        situacao: "",
+        id_transacao: ""
+        })
 }
 
 validaDados = (valor, desc) => {
@@ -87,24 +118,24 @@ validaDados = (valor, desc) => {
     
 }
 
+componentDidUpdate(prevProps) {
+    if (this.props.valor != prevProps.valor) {
+      this.setState({
+        desc: this.props.desc,
+        valor: this.props.valor
+      });
+    }
+  }
+
     render(){
-        return(
+        return(            
             <div id="contas" className="hide">
                 <h1>Contas a {this.props.situacao}</h1>
                 <hr />
 
                 <div id="msgerro" className="msgerro hide">Preencha todos os campos!</div>
 
-                <div className="">
-                    <input
-                        type="number"
-                        id="conta_valor"
-                        name="conta_valor"
-                        placeholder="Valor"
-                        value={this.state.valor}
-                        onChange={this.aoMudarValor}
-                    ></input>
-                </div>
+                <h3>{this.props.desc}</h3>
 
                 <div className="">
                     <input
@@ -114,6 +145,17 @@ validaDados = (valor, desc) => {
                         placeholder="Descrição"
                         value={this.state.desc}
                         onChange={this.aoMudarDesc}
+                    ></input>
+                </div>
+
+                <div className="">
+                    <input
+                        type="number"
+                        id="conta_valor"
+                        name="conta_valor"
+                        placeholder="Valor"
+                        value={this.state.valor}
+                        onChange={this.aoMudarValor}
                     ></input>
                 </div>
 

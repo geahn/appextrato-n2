@@ -9,6 +9,9 @@ class Listagem extends React.Component {
         super();
         this.state = { 
             situacao: "", //contas a pagar ou a receber
+            id_transacao: "",
+            descricao: "",
+            valor: "",
             entradas: []
         }
         
@@ -23,8 +26,9 @@ class Listagem extends React.Component {
 
             for (let i=0; i < (res.data['data']).length; i++) {
 
+                const id_trans = res.data['data'][i]['id'];
                 const desc = res.data['data'][i]['description'];
-                let valor = res.data['data'][i]['value'];
+                let valor = res.data['data'][i]['value_u'];
                 const data = res.data['data'][i]['updated_at'];
                 const tipo = res.data['data'][i]['type'];
 
@@ -35,32 +39,10 @@ class Listagem extends React.Component {
                 }
 
                 this.setState({ entradas: [...this.state.entradas,
-                    {valor: valor, desc: desc, horario: data }
+                    {id: id_trans, valor: valor, desc: desc, horario: data }
                 ]})
             }
         })
-
-        // axios.put(url+'/user', {
-        //     password: '123',
-        //     user_id: localStorage.getItem('id')
-        //   })
-        //   .then(function (response) {
-        //     console.log(response);
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
-
-        axios.put(url+'/Transiction', {
-            password: '123',
-            user_id: localStorage.getItem('id')
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
 
     }
 
@@ -76,7 +58,6 @@ class Listagem extends React.Component {
     }
 
     converterMoeda = (e) => {
-        //return e.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
         return numeral(e).format('$ 00.00');
     }
 
@@ -87,13 +68,28 @@ class Listagem extends React.Component {
             return "valornegativo"
     }
 
+    posNeg = (e) => {
+        if (e >= 0)
+            return 
+    }
+
     contasPagar() {
-        this.setState({situacao: "pagar"})
+        this.setState({
+            situacao: "pagar",
+            id_transacao: "",
+            descricao: "",
+            valor: "",
+        })
         this.exibirContas()
     }
 
     contasReceber() {
-        this.setState({situacao: "receber"})
+        this.setState({
+            situacao: "receber",
+            id_transacao: "",
+            descricao: "",
+            valor: "",
+        })
         this.exibirContas()
     }
 
@@ -105,6 +101,45 @@ class Listagem extends React.Component {
         elemento2.className = "hide";
 
         document.getElementById('meumenu').style.left = '-350px'
+    }
+
+    chamaConta(id) {
+
+        var url = 'https://danielapi.herokuapp.com/public_html/api';
+        axios.get(url+'/transaction/'+localStorage.getItem('id')+'/'+id)
+            .then((res) => {
+            
+            const id_transacao = res.data['data']['id'];
+            const descricao = res.data['data']['description'];
+            const valor = res.data['data']['value_u'];
+            let situacao = "";
+
+            if (res.data['data']['type'] === "P") {
+                situacao = "pagar";
+            } else {
+                situacao = "receber";
+            }
+
+            this.setState({
+                situacao: situacao,
+                id_transacao: id_transacao,
+                descricao: descricao,
+                valor: valor
+            })
+
+        })
+
+        let elemento1 = document.getElementById("contas");
+        elemento1.className = "card card-mini m5";
+
+        let elemento2 = document.getElementById("tabela");
+        elemento2.className = "hide";
+
+        let elemento3 = document.getElementById("conta_desc");
+        elemento3.className = "hide";
+
+        document.getElementById('meumenu').style.left = '-350px'
+
     }
 
     logoff() {
@@ -132,6 +167,12 @@ class Listagem extends React.Component {
 
     }
 
+    verifica(data) {
+        let verificar = moment(data)
+        let ontem = moment().subtract(1,'d')
+        if (ontem >= verificar) {return "naoedita" } else {return "edita"}
+    }
+
     render(){
         if(!localStorage.getItem('username')) {
             window.location = "/";
@@ -140,10 +181,15 @@ class Listagem extends React.Component {
         const valorTotal=(this.state.entradas.reduce((extrato,currentItem) =>  extrato = extrato + currentItem.valor , 0 ));
 
         const mapaExtrato = this.state.entradas.reverse().map((mapa, index) =>
-            <tr key={index}>
+            <tr id={"id_"+mapa.id} key={index}>
                 <td>{moment(newFunction(mapa)).format("DD/MM/YYYY hh:mm:ss")}</td>
                 <td>{mapa.desc}</td>
                 <td><b className={this.estiloPosNeg(mapa.valor)}> R{this.converterMoeda(mapa.valor).replace("-", "").replace(".",",")}</b></td>
+                <td>
+                    <a href={"#"+mapa.id} onClick={() => this.chamaConta(mapa.id)} className={this.verifica(mapa.horario)}>
+                        <ion-icon name="build"></ion-icon>
+                    </a>
+                </td>
             </tr>)
 
         return(
@@ -200,6 +246,7 @@ class Listagem extends React.Component {
                             <td><b>Horário</b></td>
                             <td><b>Descrição</b></td>
                             <td><b>Valor</b></td>
+                            <td><b>Editar</b></td>
                         </tr>
                       </thead>
                       <tbody>
@@ -207,9 +254,8 @@ class Listagem extends React.Component {
                       </tbody> 
                     </table>
                 </div>
-                {/* <div className="aviso_uso" id="aviso_uso">Adicione uma conta a pagar ou a receber.</div> */}
 
-                <Contas situacao={this.state.situacao} metodo={this.setContas} />
+                <Contas situacao={this.state.situacao} id_transacao={this.state.id_transacao} desc={this.state.descricao} valor={this.state.valor} metodo={this.setContas} />
 
             </div>
         )
