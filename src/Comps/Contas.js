@@ -82,11 +82,6 @@ addConta = (e) => {
           .catch(function (error) {
             console.log(error);
           });
-        
-        // const esconder = "id_"+this.props.id_transacao
-        // let elemento = document.getElementById(esconder);
-        // console.log((esconder))
-        // elemento.className = "hide";
 
     }
 

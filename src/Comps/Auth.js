@@ -5,17 +5,6 @@ class Auth extends React.Component {
     constructor() {
         super();
 
-        // var url = 'https://danielapi.herokuapp.com/public_html/api';
-
-        // fetch(url+'/user/daniel')
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log(data['data']['username']);
-        //     })
-        //     .catch(error => {
-        //         console.log('ERROR: ' + error.message);
-        //     })
-
         this.state = {
           usuario_cadastro: "",
           senha_cadastro: "",
